@@ -1,0 +1,29 @@
+services:
+  pulseaudio:
+    environment:
+      - TZ=Europe/Amsterdam
+    build: pulse/.
+    restart: unless-stopped
+    image: pulseaudio:1.0
+    network_mode: "host"
+    devices:
+      - "/dev/snd" # Audio passtrough
+  shairport-sync:
+    image: mikebrady/shairport-sync:latest
+    network_mode: host
+    restart: unless-stopped
+    devices:
+      - "/dev/snd" # ALSA device
+#    volumes:
+#      - ./shairport-sync/shairport-sync.conf:/etc/shairport-sync.conf # Customised Shairport Sync configuration file.
+    logging:
+      options:
+        max-size: "200k"
+        max-file: "10"
+  rpi-spotify:
+    image: derkades/raspotify
+    network_mode: host
+    devices:
+      - "/dev/snd"
+    environment:
+      SPOTIFY_NAME: 'Raspberry Pi'
