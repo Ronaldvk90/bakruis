@@ -8,5 +8,5 @@ rm -rf /run/dbus/dbus.pid
 dbus-uuidgen --ensure
 dbus-daemon --system
 avahi-daemon --daemonize --no-chroot
-sleep 10
+sleep 5
 su - bakruis -c "pulseaudio --verbose --exit-idle-time=-1 --disallow-exit"

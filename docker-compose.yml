@@ -1,21 +1,25 @@
 services:
   pulseaudio:
     environment:
+      - PULSE_SERVER=unix:/tmp/pulseaudio.socket
       - TZ=Europe/Amsterdam
     build: pulse/.
     restart: unless-stopped
-    image: pulseaudio:1.0
+    image: Ronaldvk90/pulseaudio
     network_mode: "host"
+    volumes:
+      - pulsesocket:/tmp/
     devices:
       - "/dev/snd" # Audio passtrough
   shairport-sync:
+    environment:
+      - PULSE_SERVER=unix:/tmp/pulseaudio.socket
     image: mikebrady/shairport-sync:latest
     network_mode: host
     restart: unless-stopped
-    devices:
-      - "/dev/snd" # ALSA device
-#    volumes:
-#      - ./shairport-sync/shairport-sync.conf:/etc/shairport-sync.conf # Customised Shairport Sync configuration file.
+    volumes:
+      - pulsesocket:/tmp/
+      - ./shairport-sync/shairport-sync.conf:/etc/shairport-sync.conf # Customised Shairport Sync configuration file. Needed for pulse backend
     logging:
       options:
         max-size: "200k"
@@ -23,7 +27,8 @@ services:
   rpi-spotify:
     image: derkades/raspotify
     network_mode: host
-    devices:
-      - "/dev/snd"
     environment:
-      SPOTIFY_NAME: 'Raspberry Pi'
+      - SPOTIFY_NAME='Raspberry Pi'
+      - PULSE_SERVER=unix:/tmp/pulseaudio.socket
+volumes:
+  pulsesocket:
