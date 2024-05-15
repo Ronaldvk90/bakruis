@@ -5,7 +5,7 @@ services:
       - TZ=Europe/Amsterdam
     build: pulse/.
     restart: unless-stopped
-    image: Ronaldvk90/pulseaudio
+    image: ronaldvk90/pulseaudio
     network_mode: "host"
     volumes:
       - pulsesocket:/tmp/
