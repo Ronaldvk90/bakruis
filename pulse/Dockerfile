@@ -4,7 +4,11 @@ RUN adduser -D --uid 1000 bakruis
 RUN mkdir /etc/pulse/default.pa.d
 COPY default.pa /etc/pulse/default.pa.d/default.pa
 COPY daemon.conf /etc/pulse/daemon.conf
+
+# Edit the group ID below if needed.
 RUN addgroup -g 29 pulse_audio && addgroup bakruis pulse_audio
+#
+
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT [ "/entrypoint.sh" ]
