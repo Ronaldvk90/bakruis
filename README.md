@@ -7,6 +7,8 @@ I could not have build this without these two awesome persons! :)
 
 Edit the compose file to suit you. You can set your timezone there. Needed for the audio timing in the pulse container.
 
+* Please note! The Timezone in the container **MUST** correspond with the timezone of the host. Or else there will be glitches and stuttering all over the place. *
+
 for shairport-sync, you need the supplied shairport-sync.conf because of the pulse socket.
 
 In the default.pa of the pulse container, it will output to "hw:0". If you have multiple sound devices, and want to output on a different one, just change that line.
