@@ -24,11 +24,15 @@ services:
       options:
         max-size: "200k"
         max-file: "10"
-  rpi-spotify:
-    image: derkades/raspotify
-    network_mode: host
+  spotify:
+    image: ronaldvk90/spotify
+    build: spotify/.
+    volumes:
+      - pulsesocket:/tmp/
     environment:
-      - SPOTIFY_NAME='Raspberry Pi'
+      - TZ=Europe/Amsterdam
       - PULSE_SERVER=unix:/tmp/pulseaudio.socket
+    restart: unless-stopped
+    network_mode: host
 volumes:
   pulsesocket:
