@@ -7,6 +7,7 @@ services:
     network_mode: "host"
     volumes:
       - pipesocket:/tmp/
+    hostname: bakruis
     devices:
       - "/dev/snd" # Audio passtrough
   shairport-sync:
@@ -17,6 +18,7 @@ services:
     volumes:
       - pipesocket:/tmp/
       - ./shairport-sync/shairport-sync.conf:/etc/shairport-sync.conf # Customised Shairport Sync configuration file. Needed for pulse backend
+    hostname: bakruis
     logging:
       options:
         max-size: "200k"
@@ -26,6 +28,7 @@ services:
     build: spotify/.
     volumes:
       - pipesocket:/tmp/
+    hostname: bakruis
     env_file: "environment"
     restart: unless-stopped
     network_mode: host

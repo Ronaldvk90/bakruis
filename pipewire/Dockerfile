@@ -2,6 +2,7 @@ FROM alpine:3.20
 RUN apk -U add pipewire pipewire-pulse pipewire-alsa pipewire-zeroconf avahi tzdata
 RUN adduser -D --uid 1000 bakruis
 COPY avahi-daemon.conf /etc/avahi/avahi-daemon.conf
+COPY pulseaudio.service /etc/avahi/services/pulseaudio.service
 RUN mkdir /etc/pipewire
 COPY pipewire.conf /etc/pipewire/pipewire.conf
 COPY pipewire-pulse.conf /etc/pipewire/pipewire-pulse.conf

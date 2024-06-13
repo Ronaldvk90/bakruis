@@ -1,0 +1,9 @@
+<?xml version="1.0" standalone='no'?><!--*-nxml-*-->
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+<service-group>
+    <name>bakruis</name>
+        <service>
+            <type>_pulse-sink._tcp</type>
+            <port>4713</port>
+        </service>
+</service-group>
