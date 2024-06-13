@@ -1,8 +1,0 @@
-load-module module-native-protocol-tcp auth-anonymous=1
-load-module module-zeroconf-publish
-
-# Edit the device if needed. "hw:1" for example if you use a usb sound device on a RPI.
-load-module module-alsa-sink device=hw:0 sink_name=bakruis
-#
-
-load-module module-native-protocol-unix auth-anonymous=1 socket=/tmp/pulseaudio.socket

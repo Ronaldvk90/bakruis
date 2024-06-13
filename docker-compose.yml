@@ -1,24 +1,21 @@
 services:
-  pulseaudio:
-    environment:
-      - PULSE_SERVER=unix:/tmp/pulseaudio.socket
-      - TZ=Europe/Amsterdam
-    build: pulse/.
+  pipewire:
+    env_file: "environment"
+    build: pipewire/.
     restart: unless-stopped
-    image: ronaldvk90/pulseaudio
+    image: ronaldvk90/pipewire
     network_mode: "host"
     volumes:
-      - pulsesocket:/tmp/
+      - pipesocket:/tmp/
     devices:
       - "/dev/snd" # Audio passtrough
   shairport-sync:
-    environment:
-      - PULSE_SERVER=unix:/tmp/pulseaudio.socket
+    env_file: "environment"
     image: mikebrady/shairport-sync:latest
     network_mode: host
     restart: unless-stopped
     volumes:
-      - pulsesocket:/tmp/
+      - pipesocket:/tmp/
       - ./shairport-sync/shairport-sync.conf:/etc/shairport-sync.conf # Customised Shairport Sync configuration file. Needed for pulse backend
     logging:
       options:
@@ -28,11 +25,9 @@ services:
     image: ronaldvk90/spotify
     build: spotify/.
     volumes:
-      - pulsesocket:/tmp/
-    environment:
-      - TZ=Europe/Amsterdam
-      - PULSE_SERVER=unix:/tmp/pulseaudio.socket
+      - pipesocket:/tmp/
+    env_file: "environment"
     restart: unless-stopped
     network_mode: host
 volumes:
-  pulsesocket:
+  pipesocket:

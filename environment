@@ -1,0 +1,5 @@
+PIPEWIRE_DEBUG=3
+XDG_RUNTIME_DIR=/tmp
+PULSE_SERVER=unix:/tmp/pulseaudio.socket
+TZ=Europe/Amsterdam
+OUTPUT=hw:0
