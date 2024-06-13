@@ -1,10 +1,5 @@
 FROM alpine:3.20
 RUN apk -U add pipewire pipewire-pulse pipewire-alsa pipewire-zeroconf avahi tzdata
-
-# aap
-RUN apk -U add bash vim alsaconf alsa-utils pipewire-tools
-#
-
 RUN adduser -D --uid 1000 bakruis
 COPY avahi-daemon.conf /etc/avahi/avahi-daemon.conf
 RUN mkdir /etc/pipewire
