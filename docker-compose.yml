@@ -1,10 +1,17 @@
 services:
+  avahi:
+    build: avahi/.
+    restart: unless-stopped
+    image: ronaldvk90/avahi
+    network_mode: "host"
+    hostname: bakruis
   pipewire:
     env_file: "environment"
     build: pipewire/.
     restart: unless-stopped
     image: ronaldvk90/pipewire
-    network_mode: "host"
+    ports:
+      - "4713:4713"
     volumes:
       - pipesocket:/tmp/
     hostname: bakruis
