@@ -5,7 +5,8 @@ RUN mkdir /etc/pipewire
 COPY pipewire.conf /etc/pipewire/pipewire.conf
 COPY pipewire-pulse.conf /etc/pipewire/pipewire-pulse.conf
 RUN cp -a /usr/share/wireplumber /etc
-COPY wireplumber.conf /etc/wireplumber/wireplumber.conf.d/wireplumber.conf
+COPY 50-wireplumber-disable-dbus.conf /etc/wireplumber/wireplumber.conf.d/50-wireplumber-disable-dbus.conf
+COPY 51-disable-suspension.conf /etc/wireplumber/wireplumber.conf.d/51-disable-suspension.conf
 
 # Edit the group ID below if needed.
 RUN addgroup -g 29 pipewire_audio && addgroup bakruis pipewire_audio
