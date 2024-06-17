@@ -1,5 +1,5 @@
 FROM alpine:3.20
-RUN apk -U add pipewire pipewire-pulse pipewire-alsa pipewire-zeroconf tzdata
+RUN apk -U add pipewire pipewire-pulse pipewire-zeroconf tzdata
 RUN adduser -D --uid 1000 bakruis
 RUN mkdir /etc/pipewire
 COPY pipewire.conf /etc/pipewire/pipewire.conf
