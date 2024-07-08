@@ -10,13 +10,21 @@ services:
     build: pipewire/.
     restart: unless-stopped
     image: ronaldvk90/pipewire
-    ports:
-      - "4713:4713"
     volumes:
       - pipesocket:/tmp/
     hostname: bakruis
     devices:
       - "/dev/snd" # Audio passtrough
+  pipewire-pulse:
+    env_file: "environment"
+    build: pipewire-pulse/.
+    restart: unless-stopped
+    image: ronaldvk90/pipewire-pulse
+    volumes:
+      - pipesocket:/tmp/
+    hostname: bakruis
+    ports:
+      - "4713:4713"    
   shairport-sync:
     env_file: "environment"
     image: mikebrady/shairport-sync:latest

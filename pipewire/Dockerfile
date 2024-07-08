@@ -3,7 +3,6 @@ RUN apk -U add pipewire pipewire-pulse pipewire-zeroconf tzdata
 RUN adduser -D --uid 1000 bakruis
 RUN mkdir /etc/pipewire
 COPY pipewire.conf /etc/pipewire/pipewire.conf
-COPY pipewire-pulse.conf /etc/pipewire/pipewire-pulse.conf
 RUN cp -a /usr/share/wireplumber /etc
 COPY 50-wireplumber-disable-dbus.conf /etc/wireplumber/wireplumber.conf.d/50-wireplumber-disable-dbus.conf
 COPY 51-disable-suspension.conf /etc/wireplumber/wireplumber.conf.d/51-disable-suspension.conf

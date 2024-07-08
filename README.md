@@ -10,7 +10,7 @@ You can also set the output device there. In most cases it will be **"hw:0"**. T
 
 for shairport-sync, you need the supplied shairport-sync.conf because it needs to connect to the pulse socket.
 
-In the Dockerfile of both the pipwire and spotify containers, it will make a dedicated audio group. **The default RaspberryPi OS group is 29**. It should correspond to that. If somehow your audio group number differs because you're using a different OS, change that line. Sadly you have to change it for both the pipe and spotify container. "getent group | grep audio" should do the trick.
+In the Dockerfile of pipwire, pipewire-pulse and spotify containers, it will make a dedicated audio group. **The default RaspberryPi OS group is 29**. It should correspond to that. If somehow your audio group number differs because you're using a different OS, change that line. Sadly you have to change it for the pipe, pipe-pulse and spotify container. "getent group | grep audio" should do the trick.
 
 * You can set the advertising names for the container in the compose file. The hostname for each container will correspond with how it advertises itself. *
 
