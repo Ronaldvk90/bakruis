@@ -24,7 +24,7 @@ services:
       - pipesocket:/tmp/
     hostname: bakruis
     ports:
-      - "4713:4713"    
+      - "4713:4713"
   shairport-sync:
     env_file: "environment"
     image: mikebrady/shairport-sync:latest
