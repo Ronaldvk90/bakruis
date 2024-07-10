@@ -1,4 +1,4 @@
-FROM alpine:3.20 as buildcontainer
+FROM alpine:3.20 AS buildcontainer
 RUN apk -U add tzdata dbus cargo git pkgconfig alsa-lib-dev pulseaudio
 RUN git clone https://github.com/Spotifyd/spotifyd.git
 WORKDIR /spotifyd
