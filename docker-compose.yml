@@ -1,34 +1,37 @@
 services:
   avahi:
+    env_file: .env
     build: avahi/.
     restart: unless-stopped
     image: ronaldvk90/avahi
     network_mode: "host"
-    hostname: bakruis
+    hostname: avahi
   pipewire:
-    env_file: "environment"
+    env_file: .env
     build: pipewire/.
     restart: unless-stopped
     image: ronaldvk90/pipewire
     volumes:
       - pipesocket:/tmp/
-    hostname: bakruis
+    hostname: pipewire
     devices:
       - "/dev/snd" # Audio passtrough
   pipewire-pulse:
-    env_file: "environment"
+    env_file: .env
     build: pipewire-pulse/.
     restart: unless-stopped
     image: ronaldvk90/pipewire-pulse
     volumes:
       - pipesocket:/tmp/
-    hostname: bakruis
+    hostname: pipewire-pulse
     ports:
       - "4713:4713"
   shairport-sync:
-    env_file: "environment"
+    env_file: .env
     image: mikebrady/shairport-sync:latest
-    network_mode: host
+    networks:
+      shairport:
+        ipv4_address: ${SHAIRPORT_IP}
     restart: unless-stopped
     volumes:
       - pipesocket:/tmp/
@@ -39,13 +42,22 @@ services:
         max-size: "200k"
         max-file: "10"
   spotify:
+    env_file: .env
     image: ronaldvk90/spotify
     build: spotify/.
     volumes:
       - pipesocket:/tmp/
     hostname: bakruis
-    env_file: "environment"
     restart: unless-stopped
     network_mode: host
 volumes:
   pipesocket:
+networks:
+  shairport:
+    driver: macvlan
+    driver_opts:
+      parent: ${INTERFACE}
+    ipam:
+      config:
+        - subnet: '${SUBNET}'
+          gateway: '${GATEWAY}'
