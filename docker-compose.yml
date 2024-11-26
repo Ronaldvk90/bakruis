@@ -4,34 +4,32 @@ services:
     restart: unless-stopped
     image: ronaldvk90/avahi
     network_mode: "host"
-    hostname: bakruis
-  pipewire:
-    env_file: "environment"
-    build: pipewire/.
+    hostname: avahi
+  pulseaudio:
+    env_file: ".env"
+    build: pulseaudio/.
     restart: unless-stopped
-    image: ronaldvk90/pipewire
+    image: ronaldvk90/pulseaudio
     volumes:
-      - pipesocket:/tmp/
-    hostname: bakruis
-    devices:
-      - "/dev/snd" # Audio passtrough
-  pipewire-pulse:
-    env_file: "environment"
-    build: pipewire-pulse/.
-    restart: unless-stopped
-    image: ronaldvk90/pipewire-pulse
-    volumes:
-      - pipesocket:/tmp/
-    hostname: bakruis
+      - pulsesocket:/tmp/
+      - /etc/localtime:/etc/localtime:ro
+      - /run/udev:/run/udev:ro
+    hostname: pulseaudio
     ports:
       - "4713:4713"
+    group_add:
+      - audio
+    devices:
+      - /dev/snd:/dev/snd
   shairport-sync:
-    env_file: "environment"
+    env_file: .env
     image: mikebrady/shairport-sync:latest
-    network_mode: host
+    networks:
+      shairport:
+        ipv4_address: ${SHAIRPORT_IP}
     restart: unless-stopped
     volumes:
-      - pipesocket:/tmp/
+      - pulsesocket:/tmp/
       - ./shairport-sync/shairport-sync.conf:/etc/shairport-sync.conf # Customised Shairport Sync configuration file. Needed for pulse backend
     hostname: bakruis
     logging:
@@ -42,10 +40,19 @@ services:
     image: ronaldvk90/spotify
     build: spotify/.
     volumes:
-      - pipesocket:/tmp/
+      - pulsesocket:/tmp/
     hostname: bakruis
-    env_file: "environment"
+    env_file: ".env"
     restart: unless-stopped
     network_mode: host
 volumes:
-  pipesocket:
+  pulsesocket:
+networks:
+  shairport:
+    driver: macvlan
+    driver_opts:
+      parent: ${INTERFACE}
+    ipam:
+      config:
+        - subnet: '${SUBNET}'
+          gateway: '${GATEWAY}'
