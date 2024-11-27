@@ -13,7 +13,7 @@ You can also set the output device there. This is the **DEVICE** variable. Defau
 If the pulseaudio container runs, simply type **docker exec -u 1000 bakruis-pulseaudio-$ContainerNumber pactl list sinks short**, where the container number could differ per setup. In most cases it will be just **bakruis-pulseaudio-1**.
 
 This will create a list of audio devices available. For example in my case it is:\
-0	alsa_output.platform-bcm2835_audio.stereo-fallback
+0	alsa_output.platform-bcm2835_audio.stereo-fallback\
 1	alsa_output.usb-Burr-Brown_from_TI_USB_Audio_CODEC-00.analog-stereo
 
 In my case i eddited the .env file device line like this: **DEVICE=alsa_output.usb-Burr-Brown_from_TI_USB_Audio_CODEC-00.analog-stereo**.
