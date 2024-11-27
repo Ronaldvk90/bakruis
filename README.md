@@ -1,8 +1,10 @@
-# Welcome to bakruis! A spotify/pipewire/Airplay2 docker instance.
+# Welcome to bakruis pulseaudio! A spotify/pulseaudio/Airplay2 docker instance.
 
 First of all, I would like to thank Mike Brady for his work with Airplay. I use his Shairport-sync docker instance.
-
 I could not have built this without this awesome person! :)
+
+This is the pulseaudio branch of bakruis, *intended to be used on a RPI*.
+Audio device switching with Pipewire is a hellish nightmare on a Pi from my perception. Tho it has probably everything to do with my incompetence. :)
 
 Edit the .env environment file to suit you.
 
