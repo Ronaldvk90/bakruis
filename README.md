@@ -8,7 +8,7 @@ Audio device switching with Pipewire is a hellish nightmare on a Pi from my perc
 
 Edit the .env environment file to suit you.
 
-You can also set the output device there. This is the **DEVICE** variable. Default it will be blank. This corresponds to the  audio device you want to use. If you would like to use a USB audio device, for example change it so you don't have to blacklist any modules and stick your dirty fingers in alsa on the host. :P
+You can set the output device there. This is the **DEVICE** variable. Default it will be blank. This corresponds to the  audio device you want to use. If you would like to use a USB audio device, for example change it so you don't have to blacklist any modules and stick your dirty fingers in alsa on the host. :P
 
 If the pulseaudio container runs, simply type **docker exec -u 1000 bakruis-pulseaudio-$ContainerNumber pactl list sinks short**, where the container number could differ per setup. In most cases it will be just **bakruis-pulseaudio-1**.
 

@@ -4,8 +4,7 @@ RUN apk update && apk upgrade
 
 RUN apk -U add  pulseaudio\
                 pulseaudio-utils\
-                pulseaudio-zeroconf\
-                dbus
+                pulseaudio-zeroconf
 
 RUN adduser -D --uid 1000 bakruis
 

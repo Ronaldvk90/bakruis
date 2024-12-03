@@ -1,3 +1,5 @@
 set-default-sink DEVICE
+load-module module-always-sink
+load-module module-zeroconf-publish
 load-module module-native-protocol-tcp auth-anonymous=1
 load-module module-native-protocol-unix auth-anonymous=1 socket=/tmp/pulseaudio.socket
