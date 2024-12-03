@@ -4,10 +4,11 @@ First of all, I would like to thank Mike Brady for his work with Airplay. I use 
 
 I could not have built this without this awesome person! :)
 
-Edit the .env file to suit you. You can set your timezone there.
-Becouse it runs two avahi instances, one in the shaiport container and one for pipewire-pulse, i had to IP seperate the containers in order to make that work. So you have to edit the .env file to suit your **IP** needs.
+** You need avahi-daemon running on the host for pulseaudio over TCP! ** Most distro's come standard with it enabled tho. :)
 
-You can also set the output device there. In most cases it will be **"hw:0"**. This corresponds to the first audio device on a RPI for example. If you would like to use a USB audio device, for example change it to **"hw:1"** so you don't have to blacklist and modules and stick your dirty fingers in alsa. :P
+Edit the .env file to suit your output
+
+You can set the output device. In most cases it will be **"hw:0"**. This corresponds to the first audio device on a RPI for example. If you would like to use a USB audio device, for example change it to **"hw:1"** so you don't have to blacklist and modules and stick your dirty fingers in alsa. :P
 
 for shairport-sync, you need the supplied shairport-sync.conf because it needs to connect to the pulse socket.
 
@@ -16,7 +17,4 @@ In the Dockerfile of the pipwire container, it will make a dedicated audio group
 **If you use the image supplied on dockerhub, it will be set to 29! So if your group differs, comment the "image: ronaldvk90/pipewire" line!**
 
 * You can set the advertising names for the container in the compose file. The hostname for each container will correspond with how it advertises itself. *
-
-**WARNING! It takes about 500 years for SpotifyD to compile on a RPI. You could crosscompile it, but make sure to use the "--features "pulseaudio_backend" or else SpotifyD can't connect to the Pulse socket!**
-
 After that, just compose up and you are good to go.
