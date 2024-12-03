@@ -33,6 +33,7 @@ services:
       - pipesocket:/tmp/
       - /etc/localtime:/etc/localtime:ro
       - ./shairport-sync/shairport-sync.conf:/etc/shairport-sync.conf # Customised Shairport Sync configuration file. Needed for pulse backend
+    network_mode: "host"
     hostname: bakruis
     logging:
       options:
