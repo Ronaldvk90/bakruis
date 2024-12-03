@@ -4,7 +4,7 @@ First of all, I would like to thank Mike Brady for his work with Airplay. I use 
 
 I could not have built this without this awesome person! :)
 
-** You need avahi-daemon running on the host for pulseaudio over TCP! ** Most distro's come standard with it enabled tho. :)
+**You need avahi-daemon running on the host for pulseaudio over TCP!** Most distro's come standard with it enabled tho. :)
 
 Edit the .env file to suit your output
 
