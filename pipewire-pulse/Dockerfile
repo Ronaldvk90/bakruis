@@ -1,6 +1,6 @@
 FROM alpine:3.21
 RUN apk update && apk upgrade
-RUN apk -U add pipewire pipewire-pulse pipewire-zeroconf
+RUN apk -U add pipewire-pulse pipewire-zeroconf
 RUN adduser -D --uid 1000 bakruis
 RUN mkdir /etc/pipewire
 COPY pipewire-pulse.conf /etc/pipewire/pipewire-pulse.conf

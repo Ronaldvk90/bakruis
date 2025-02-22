@@ -1,47 +1,85 @@
 services:
+  dbus:
+    env_file: ".env"
+    image: ronaldvk90/dbus:latest
+    build: dbus/.
+    restart: unless-stopped
+    volumes:
+      - dbussocket:/var/run/dbus
+      - avahisocket:/var/run/avahi-daemon      
+      - /etc/localtime:/etc/localtime:ro
+
+  avahi:
+    depends_on:
+     - dbus
+    env_file: ".env"
+    image: ronaldvk90/avahi:latest
+    build: avahi/.
+    restart: unless-stopped
+    volumes:
+      - pipesocket:/tmp/
+      - dbussocket:/var/run/dbus
+      - avahisocket:/var/run/avahi-daemon
+      - /etc/localtime:/etc/localtime:ro
+    cap_add:
+      - NET_ADMIN
+    network_mode: host
+
   pipewire:
+    depends_on:
+      - dbus
     env_file: .env
     build: pipewire/.
     restart: unless-stopped
-    image: ronaldvk90/pipewire
+    image: ronaldvk90/pipewire:latest
     volumes:
       - pipesocket:/tmp/
-      - /var/run/avahi-daemon:/var/run/avahi-daemon
-      - /var/run/dbus:/var/run/dbus
+      - dbussocket:/var/run/dbus
+      - avahisocket:/var/run/avahi-daemon
       - /etc/localtime:/etc/localtime:ro
-    hostname: pipewire
+      - /run/udev:/run/udev:ro
     devices:
       - "/dev/snd" # Audio passtrough
+    cap_add:
+      - SYS_NICE
+
   pipewire-pulse:
+    depends_on:
+      - pipewire
     env_file: .env
     build: pipewire-pulse/.
     restart: unless-stopped
-    image: ronaldvk90/pipewire-pulse
+    image: ronaldvk90/pipewire-pulse:latest
     volumes:
       - pipesocket:/tmp/
-      - /var/run/avahi-daemon:/var/run/avahi-daemon
-      - /var/run/dbus:/var/run/dbus
+      - dbussocket:/var/run/dbus
+      - avahisocket:/var/run/avahi-daemon
       - /etc/localtime:/etc/localtime:ro
     hostname: pipewire-pulse
     ports:
       - "4713:4713"
+
   shairport-sync:
+    depends_on:
+      - dbus
     env_file: .env
-    image: mikebrady/shairport-sync:latest
+    image: ronaldvk90/shairport-sync:latest
     restart: unless-stopped
     volumes:
       - pipesocket:/tmp/
+      - dbussocket:/var/run/dbus
+      - avahisocket:/var/run/avahi-daemon
       - /etc/localtime:/etc/localtime:ro
-      - ./shairport-sync/shairport-sync.conf:/etc/shairport-sync.conf # Customised Shairport Sync configuration file. Needed for pulse backend
     network_mode: "host"
     hostname: bakruis
     logging:
       options:
         max-size: "200k"
         max-file: "10"
+
   spotify:
     env_file: .env
-    image: ronaldvk90/spotify
+    image: ronaldvk90/spotify:latest
     build: spotify/.
     volumes:
       - pipesocket:/tmp/
@@ -49,5 +87,9 @@ services:
     hostname: bakruis
     restart: unless-stopped
     network_mode: host
+
 volumes:
+  dbussocket:
+  btdevices:
   pipesocket:
+  avahisocket:
