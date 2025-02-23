@@ -55,7 +55,6 @@ services:
       - dbussocket:/var/run/dbus
       - avahisocket:/var/run/avahi-daemon
       - /etc/localtime:/etc/localtime:ro
-    hostname: pipewire-pulse
     ports:
       - "4713:4713"
 
