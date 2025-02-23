@@ -6,4 +6,5 @@ RUN cp -a /usr/share/pipewire /etc
 RUN cp -a /usr/share/wireplumber /etc
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
+HEALTHCHECK --interval=5s --timeout=10s --retries=10 CMD test -S /tmp/pipewire-0 || exit 1
 ENTRYPOINT [ "/entrypoint.sh" ]

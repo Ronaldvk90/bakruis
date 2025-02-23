@@ -13,4 +13,5 @@ COPY spotifyd.conf /etc/spotifyd.conf
 COPY --from=buildcontainer /spotifyd/target/release/spotifyd /usr/bin/spotifyd
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
+HEALTHCHECK --interval=5s --timeout=10s --retries=10 CMD pgrep spotifyd > /dev/null || exit 1
 ENTRYPOINT [ "/entrypoint.sh" ]

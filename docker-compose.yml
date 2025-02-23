@@ -1,7 +1,7 @@
 services:
   dbus:
     env_file: ".env"
-    image: ronaldvk90/dbus:latest
+#    image: ronaldvk90/dbus:latest
     build: dbus/.
     restart: unless-stopped
     volumes:
@@ -11,9 +11,10 @@ services:
 
   avahi:
     depends_on:
-     - dbus
+      dbus:
+        condition: service_healthy
     env_file: ".env"
-    image: ronaldvk90/avahi:latest
+#    image: ronaldvk90/avahi:latest
     build: avahi/.
     restart: unless-stopped
     volumes:
@@ -27,11 +28,12 @@ services:
 
   pipewire:
     depends_on:
-      - dbus
+      dbus:
+        condition: service_healthy
     env_file: .env
     build: pipewire/.
     restart: unless-stopped
-    image: ronaldvk90/pipewire:latest
+#    image: ronaldvk90/pipewire:latest
     volumes:
       - pipesocket:/tmp/
       - dbussocket:/var/run/dbus
@@ -45,11 +47,12 @@ services:
 
   pipewire-pulse:
     depends_on:
-      - pipewire
+      pipewire:
+        condition: service_healthy
     env_file: .env
     build: pipewire-pulse/.
     restart: unless-stopped
-    image: ronaldvk90/pipewire-pulse:latest
+#    image: ronaldvk90/pipewire-pulse:latest
     volumes:
       - pipesocket:/tmp/
       - dbussocket:/var/run/dbus
@@ -60,7 +63,8 @@ services:
 
   shairport-sync:
     depends_on:
-      - dbus
+      pipewire-pulse:
+        condition: service_healthy
     env_file: .env
     image: ronaldvk90/shairport-sync:latest
     restart: unless-stopped
