@@ -74,20 +74,21 @@ services:
       - avahisocket:/var/run/avahi-daemon
       - /etc/localtime:/etc/localtime:ro
     network_mode: "host"
-    hostname: bakruis
     logging:
       options:
         max-size: "200k"
         max-file: "10"
 
   spotify:
+    depends_on:
+      pipewire-pulse:
+        condition: service_healthy
     env_file: .env
     image: ronaldvk90/spotify:latest
     build: spotify/.
     volumes:
       - pipesocket:/tmp/
       - /etc/localtime:/etc/localtime:ro
-    hostname: bakruis
     restart: unless-stopped
     network_mode: host
 
