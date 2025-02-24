@@ -22,8 +22,6 @@ services:
       - dbussocket:/var/run/dbus
       - avahisocket:/var/run/avahi-daemon
       - /etc/localtime:/etc/localtime:ro
-    cap_add:
-      - NET_ADMIN
     network_mode: host
 
   pipewire:
@@ -41,9 +39,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /run/udev:/run/udev:ro
     devices:
-      - "/dev/snd" # Audio passtrough
-    cap_add:
-      - SYS_NICE
+      - "/dev/snd"
 
   pipewire-pulse:
     depends_on:
