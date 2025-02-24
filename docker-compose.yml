@@ -61,6 +61,24 @@ services:
     ports:
       - "4713:4713"
 
+  bluetooth:
+    depends_on:
+      pipewire:
+        condition: service_healthy
+    env_file: ".env"
+    image: ronaldvk90/bluetooth:latest
+    build: bluetooth/.
+    restart: unless-stopped
+    volumes:
+      - pipesocket:/tmp/
+      - dbussocket:/var/run/dbus
+      - btdevices:/var/lib/bluetooth
+      - /etc/localtime:/etc/localtime:ro
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+    network_mode: host
+
   shairport-sync:
     depends_on:
       pipewire-pulse:
