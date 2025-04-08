@@ -6,7 +6,8 @@ services:
     restart: unless-stopped
     volumes:
       - dbussocket:/var/run/dbus
-      - avahisocket:/var/run/avahi-daemon      
+      - avahisocket:/var/run/avahi-daemon
+      - ./dbus/services/:/usr/share/dbus-1/system.d/  
       - /etc/localtime:/etc/localtime:ro
 
   avahi:
