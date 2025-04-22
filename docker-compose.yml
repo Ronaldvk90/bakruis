@@ -1,7 +1,7 @@
 services:
   dbus:
     env_file: ".env"
-#    image: ronaldvk90/dbus:latest
+    image: ronaldvk90/dbus:latest
     build: dbus/.
     restart: unless-stopped
     volumes:
@@ -30,7 +30,7 @@ services:
     env_file: .env
     build: pipewire-pulse/.
     restart: unless-stopped
-#    image: ronaldvk90/pipewire-pulse:latest
+    image: ronaldvk90/pipewire-pulse:latest
     volumes:
       - /run/udev:/run/udev:ro
       - /etc/localtime:/etc/localtime:ro
