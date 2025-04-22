@@ -9,7 +9,6 @@ while true; do
         break
     else
         pactl set-default-sink $DEVICE
-        pactl set-sink-volume $DEVICE 100%
     fi
     sleep 5
 done &
