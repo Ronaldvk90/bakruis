@@ -5,7 +5,8 @@ su -c pipewire-pulse bakruis&
 
 while true; do
     defaultdevice=$(pactl get-default-sink)
-    if [[ "$defaultdevice" == "$DEVICE" ]]; then
+    if [[ "$defaultdevice" = "$DEVICE" ]]; then
+        /sinkvolume.sh
         break
     else
         pactl set-default-sink $DEVICE
