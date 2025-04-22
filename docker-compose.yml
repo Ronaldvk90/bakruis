@@ -1,14 +1,15 @@
 services:
   dbus:
     env_file: ".env"
-    image: ronaldvk90/dbus:latest
+#    image: ronaldvk90/dbus:latest
     build: dbus/.
     restart: unless-stopped
     volumes:
-      - dbussocket:/var/run/dbus
-      - avahisocket:/var/run/avahi-daemon
       - ./dbus/services/:/usr/share/dbus-1/system.d/  
       - /etc/localtime:/etc/localtime:ro
+    networks:
+      bakruislan:
+        ipv4_address: 172.31.0.2
 
   avahi:
     depends_on:
@@ -19,56 +20,37 @@ services:
     build: avahi/.
     restart: unless-stopped
     volumes:
-      - pipesocket:/tmp/
-      - dbussocket:/var/run/dbus
-      - avahisocket:/var/run/avahi-daemon
       - /etc/localtime:/etc/localtime:ro
     network_mode: host
 
-  pipewire:
+  pipewire-pulse:
     depends_on:
       dbus:
         condition: service_healthy
     env_file: .env
-    build: pipewire/.
-    restart: unless-stopped
-    image: ronaldvk90/pipewire:latest
-    volumes:
-      - pipesocket:/tmp/
-      - dbussocket:/var/run/dbus
-      - avahisocket:/var/run/avahi-daemon
-      - /etc/localtime:/etc/localtime:ro
-      - /run/udev:/run/udev:ro
-    devices:
-      - "/dev/snd"
-
-  pipewire-pulse:
-    depends_on:
-      pipewire:
-        condition: service_healthy
-    env_file: .env
     build: pipewire-pulse/.
     restart: unless-stopped
-    image: ronaldvk90/pipewire-pulse:latest
+#    image: ronaldvk90/pipewire-pulse:latest
     volumes:
-      - pipesocket:/tmp/
-      - dbussocket:/var/run/dbus
-      - avahisocket:/var/run/avahi-daemon
+      - /run/udev:/run/udev:ro
       - /etc/localtime:/etc/localtime:ro
+    devices:
+      - "/dev/snd"
     ports:
       - "4713:4713"
+    networks:
+      bakruislan:
+        ipv4_address: 172.31.0.3
 
   bluetooth:
     depends_on:
-      pipewire:
+      pipewire-pulse:
         condition: service_healthy
     env_file: ".env"
     image: ronaldvk90/bluetooth:latest
     build: bluetooth/.
     restart: unless-stopped
     volumes:
-      - pipesocket:/tmp/
-      - dbussocket:/var/run/dbus
       - btdevices:/var/lib/bluetooth
       - /etc/localtime:/etc/localtime:ro
     cap_add:
@@ -84,9 +66,6 @@ services:
     image: ronaldvk90/shairport-sync:latest
     restart: unless-stopped
     volumes:
-      - pipesocket:/tmp/
-      - dbussocket:/var/run/dbus
-      - avahisocket:/var/run/avahi-daemon
       - /etc/localtime:/etc/localtime:ro
     network_mode: "host"
     logging:
@@ -102,13 +81,16 @@ services:
     image: ronaldvk90/spotify:latest
     build: spotify/.
     volumes:
-      - pipesocket:/tmp/
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
     network_mode: host
 
 volumes:
-  dbussocket:
   btdevices:
-  pipesocket:
-  avahisocket:
+
+networks:
+  bakruislan:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.0.0/24
