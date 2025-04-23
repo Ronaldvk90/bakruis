@@ -24,6 +24,7 @@ services:
     network_mode: host
 
   pipewire-pulse:
+    hostname: pipewire-pulse
     depends_on:
       dbus:
         condition: service_healthy
