@@ -146,20 +146,22 @@ while [ "$CHOICE -ne 4" ]; do
             sed -i '/NAME=/c\NAME='$NAME'' .env
             ;;
         2)
-            DEVICECHOICE=$(dialog --clear \
+            DEVICE=$(dialog --clear --stdout \
                 --backtitle "$BACKTITLE" \
                 --title "$TITLE" \
                 --menu "$MENU" \
                 --keep-tite \
                 $HEIGHT $WIDTH $CHOICE_HEIGHT \
-                "${DEVICEOPTIONS[@]}" \
+               "${DEVICEOPTIONS[@]}" \
                 2>&1 >/dev/tty)
-            case $DEVICECHOICE in
-                1)
-                echo "$SETDEVICE"
-                sed -i '/DEVICE=/c\DEVICE='$SETDEVICE'' .env
+            
+            case $DEVICE in
+                *)
+                sed -i "s|^DEVICE=.*|DEVICE=${DEVICES[$((DEVICE - 1))]}|" .env
                 ;;
-                esac
+            esac
+
+  
             ;;
         3)
             AUDIOCHOICE=$(dialog --clear \
