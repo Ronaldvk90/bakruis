@@ -1,6 +1,11 @@
 FROM alpine:3.21 AS buildcontainer
+
+ENV PATH="/root/.cargo/bin:$PATH"
+ENV RUSTFLAGS="-C target-feature=-crt-static"
+
 RUN apk update && apk upgrade
-RUN apk -U add tzdata dbus cargo git pkgconfig alsa-lib-dev pulseaudio
+RUN apk -U add tzdata rustup dbus git pkgconfig alsa-lib-dev pulseaudio gcc musl-dev
+RUN rustup-init  --default-toolchain nightly -y
 RUN git clone https://github.com/Spotifyd/spotifyd.git
 WORKDIR /spotifyd
 RUN cargo build --release --features "pulseaudio_backend"
