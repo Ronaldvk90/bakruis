@@ -1,4 +1,4 @@
-FROM alpine:3.21
+FROM alpine:3.22
 RUN apk update && apk upgrade
 RUN apk add --no-cache dbus
 COPY system.conf /usr/share/dbus-1/system.conf

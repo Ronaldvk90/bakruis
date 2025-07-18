@@ -1,4 +1,4 @@
-FROM alpine:3.21
+FROM alpine:3.22
 RUN apk update && apk upgrade
 RUN apk add --no-cache avahi
 RUN rm /etc/avahi/services/*.service
