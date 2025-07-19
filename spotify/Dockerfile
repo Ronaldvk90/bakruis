@@ -1,15 +1,21 @@
+# Preparing the container to build spotifyd
 FROM debian:trixie AS buildcontainer
 
+# Setting a few environment variables for the build container only
 ENV PATH="/root/.cargo/bin:$PATH"
 ENV RUSTFLAGS="-C target-feature=-crt-static"
 
+# Preparing files and the spotifyd sourcecode
 RUN apt update && apt upgrade -y
-RUN apt install tzdata rustup dbus git pkg-config libasound2-dev pulseaudio gcc musl-dev -y
+RUN apt install tzdata rustup dbus git pkg-config libasound2-dev pulseaudio gcc musl-dev cmake clang libclang-dev -y
 RUN rustup default nightly
 RUN git clone https://github.com/Spotifyd/spotifyd.git
+
+# Building spotifyd
 WORKDIR /spotifyd
 RUN cargo build --release --features "pulseaudio_backend"
 
+# Live container
 FROM alpine:3.22
 RUN apk update && apk upgrade
 RUN apk -U add alsa-lib-dev pulseaudio
