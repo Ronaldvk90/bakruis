@@ -13,9 +13,9 @@ WORKDIR /spotifyd
 RUN /root/.cargo/bin/cargo build --release --features "pulseaudio_backend"
 
 # Live container
-FROM debian:bookworm
+FROM debian:bookworm-slim
 RUN apt update && apt upgrade -y
-RUN apt install libasound2-dev pulseaudio -y
+RUN apt install libasound2-dev pulseaudio tzdata -y
 RUN adduser --uid 1000 bakruis
 COPY spotifyd.conf /etc/spotifyd.conf
 COPY --from=buildcontainer /spotifyd/target/release/spotifyd /usr/bin/spotifyd

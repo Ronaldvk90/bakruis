@@ -1,6 +1,6 @@
 FROM alpine:3.22
 RUN apk update && apk upgrade
-RUN apk -U add pipewire pipewire-spa-bluez pipewire-pulse pipewire-zeroconf wireplumber
+RUN apk -U add pipewire pipewire-spa-bluez pipewire-pulse pipewire-zeroconf wireplumber tzdata
 RUN adduser -D --uid 1000 bakruis
 RUN cp -a /usr/share/pipewire /etc
 RUN cp -a /usr/share/wireplumber /etc

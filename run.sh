@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Clear screen
 clear
@@ -107,7 +107,8 @@ MENU="Choose one of the following options:"
 OPTIONS=(1 "Advertisement name:     current: $NAME"
          2 "Audio Device:           Current: $DEVICE"
          3 "Audio Group:            Current: $AUDIO_GROUP"
-         4 "Exit Setup                                   ")
+         4 "TimeZone:               Current: $TZ"
+         5 "Exit Setup                                   ")
 
 AUDIOOPTIONS=(1 "Auto detect audio group (recommended)"
               2 "Manual set audio group  Current: $AUDIO_GROUP")
@@ -183,7 +184,11 @@ while [ "$CHOICE -ne 4" ]; do
                     ;;
                 esac
             ;;
-        4)
+
+        4)  TZ=$(dialog --inputbox "Enter Timezone: " 0 100 --output-fd 1)
+            sed -i '/TZ=/c\TZ='$TZ'' .env
+            ;;
+        5)
             exit
             ;;
     esac

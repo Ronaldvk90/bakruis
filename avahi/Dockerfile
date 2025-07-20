@@ -1,6 +1,6 @@
 FROM alpine:3.22
 RUN apk update && apk upgrade
-RUN apk add --no-cache avahi
+RUN apk add --no-cache avahi tzdata
 RUN rm /etc/avahi/services/*.service
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x entrypoint.sh

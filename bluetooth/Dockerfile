@@ -1,6 +1,6 @@
 FROM alpine:3.22
 RUN apk update && apk upgrade
-RUN apk -U add bluez
+RUN apk -U add bluez tzdata
 
 COPY main.conf /etc/bluetooth/main.conf
 COPY entrypoint.sh /

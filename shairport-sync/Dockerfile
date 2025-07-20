@@ -25,7 +25,8 @@ RUN apk -U add \
         popt-dev \
         pulseaudio-dev \
         soxr-dev \
-        xxd
+        xxd \
+        tzdata
 
 ##### ALAC #####
 FROM builder AS alac
