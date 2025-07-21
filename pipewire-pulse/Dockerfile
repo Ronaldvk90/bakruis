@@ -4,7 +4,6 @@ RUN apk -U add pipewire pipewire-spa-bluez pipewire-pulse pipewire-zeroconf wire
 RUN adduser -D --uid 1000 bakruis
 RUN cp -a /usr/share/pipewire /etc
 RUN cp -a /usr/share/wireplumber /etc
-COPY pipewire-pulse.conf /etc/pipewire/pipewire-pulse.conf.d/pipewire-pulse.conf
 COPY entrypoint.sh /
 COPY sinkvolume.sh /
 RUN chmod +x /sinkvolume.sh
