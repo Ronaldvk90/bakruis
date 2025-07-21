@@ -103,8 +103,8 @@ COPY --from=alac /usr/local/lib/libalac.* /usr/local/lib/
 COPY --from=shairport-sync /shairport-sync/build/install/etc/shairport-sync.conf.sample /etc/
 
 COPY shairport-sync.conf /etc/
-COPY run.sh /
-RUN chmod +x /run.sh
+COPY entrypoint.sh /
+RUN chmod +x /entrypoint.sh
 HEALTHCHECK --interval=5s --timeout=10s --retries=10 CMD pgrep shairport-sync > /dev/null || exit 1
 
-ENTRYPOINT ["./run.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
