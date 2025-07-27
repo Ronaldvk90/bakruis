@@ -5,7 +5,8 @@ services:
     build: dbus/.
     restart: unless-stopped
     volumes:
-      - sockets:/tmp
+      - audiosockets:/tmp
+      - dbussocket:/var/run/dbus/
       - ./dbus/services/:/usr/share/dbus-1/system.d/  
 
   avahi:
@@ -17,7 +18,8 @@ services:
     build: avahi/.
     restart: unless-stopped
     volumes:
-      - sockets:/tmp
+      - audiosockets:/tmp
+      - dbussocket:/var/run/dbus/
     network_mode: host
 
   pipewire-pulse:
@@ -30,7 +32,8 @@ services:
     restart: unless-stopped
     image: ronaldvk90/pipewire-pulse:latest
     volumes:
-      - sockets:/tmp
+      - audiosockets:/tmp
+      - dbussocket:/var/run/dbus/
       - ./pipewire-pulse/pipewire-pulse.conf.d/:/etc/pipewire/pipewire-pulse.conf.d/
       - /run/udev:/run/udev:ro
     devices:
@@ -47,7 +50,8 @@ services:
     build: bluetooth/.
     restart: unless-stopped
     volumes:
-      - sockets:/tmp
+      - audiosockets:/tmp
+      - dbussocket:/var/run/dbus/
       - btdevices:/var/lib/bluetooth
     cap_add:
       - NET_ADMIN
@@ -63,7 +67,8 @@ services:
     restart: unless-stopped
     network_mode: "host"
     volumes:
-      - sockets:/tmp
+      - dbussocket:/var/run/dbus/
+      - audiosockets:/tmp
     logging:
       options:
         max-size: "200k"
@@ -78,9 +83,11 @@ services:
     build: spotify/.
     restart: unless-stopped
     volumes:
-      - sockets:/tmp
+      - dbussocket:/var/run/dbus/
+      - audiosockets:/tmp
     network_mode: host
 
 volumes:
   btdevices:
-  sockets:
+  audiosockets:
+  dbussocket:
