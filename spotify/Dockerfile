@@ -3,7 +3,7 @@ FROM debian:bookworm AS buildcontainer
 
 # Preparing files and the spotifyd sourcecode
 RUN apt update && apt upgrade -y
-RUN apt install tzdata git curl gcc libpulse-dev libasound2-dev -y
+RUN apt install tzdata git curl gcc libpulse-dev libasound2-dev cmake clang llvm-dev libclang-dev pkg-config -y
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN git clone https://github.com/librespot-org/librespot.git
 
