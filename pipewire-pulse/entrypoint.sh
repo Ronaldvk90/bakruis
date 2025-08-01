@@ -1,9 +1,7 @@
 #!/bin/sh
 
-## Set the "bakruis" user to the nedded audio group
-groupadd -g $AUDIO_GROUP pulse_audio
-usermod -aG pulse_audio bakruis
-usermod -aG audio bakruis
+## Set the "bakruis" user to the needed audio group
+addgroup -g $AUDIO_GROUP pulse_audio && addgroup bakruis pulse_audio && addgroup bakruis audio
 
 ## Start PipeWire and PipeWire-Pulse
 su -c pipewire bakruis&
