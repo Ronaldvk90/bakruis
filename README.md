@@ -18,17 +18,6 @@ The same goes for avahi-daemon! Same principle. :)
 
 When the container runs, we have to enter it from the commandline if we want to pair and trust a device. No worry's it only has to be done once per device you'd like to connect! :) This becouse of security and my own incompetence.
 
-**docker exec -it -u 1000 bakruis-bluetooth-1 /bin/sh**
-
-*bluetoothctl*
-*discoverable yes* (sometimes it just won't be visable out of the box, and sometimes it is...)
-
-The connect your device, pair. and finaly when that's done, type:
-
-*trust <BT CLIENT DEVICE MAC ADRESS>* (usualy autofills with the TAB key ;-) )
-
-And Bob's your uncle! Happy streaming! :D
-
 **ADDING YOUR OWN SERVICE *DRUMROLL***
 
 If you want to add a service to bakruis, feel free!
@@ -40,5 +29,6 @@ The needed environments in the .env file:
 DBUS_SYSTEM_BUS_ADDRESS=unix:path=/tmp/system_bus_socket
 PULSE_SERVER=unix:/tmp/pulseaudio.socket
 
-This will connect the service to avahi trough DBUS and the PipeWire-Pulse container trough DBUS socket and PipeWire-Pulse socket.
-In the DBUS container there is a drop-in sample config to use. :)
+Or use PipeWire at **/tmp/pipewire-0**
+
+This will connect the service to avahi trough DBUS and the PipeWire-Pulse container trough DBUS socket and PipeWire-Pulse or pipewire socket.

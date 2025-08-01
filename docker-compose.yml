@@ -5,9 +5,9 @@ services:
     build: dbus/.
     restart: unless-stopped
     volumes:
-      - audiosockets:/tmp
       - dbussocket:/var/run/dbus/
-      - ./dbus/services/:/usr/share/dbus-1/system.d/  
+      - ./dbus/system_services/:/usr/share/dbus-1/system.d/
+      - ./dbus/session_services/:/usr/share/dbus-1/session.d/
 
   avahi:
     depends_on:

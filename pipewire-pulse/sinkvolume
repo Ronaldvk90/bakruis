@@ -1,0 +1,15 @@
+#!/bin/bash
+
+DONE=""
+
+while true; do
+    SINKS=$(pactl list short sinks | awk '{print $2}')
+    
+    for SINK in $SINKS; do
+        if ! grep -q "$SINK" <<< "$DONE"; then
+            pactl set-sink-volume "$SINK" 100%
+            DONE="${DONE}${SINK}\n"
+        fi
+    done
+    sleep 2
+done
