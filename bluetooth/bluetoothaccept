@@ -1,0 +1,51 @@
+#!/usr/bin/expect -f
+
+set timeout -1
+log_user 1
+
+proc handle_line {line} {
+    # accept everything with 'yes'
+    if {[regexp {\(yes/no\):} $line]} {
+        puts ">> Prompt detected, sending 'yes'"
+        send "yes\r"
+        return
+    }
+
+    # just authorize everything
+    if {[regexp {Authorize service .*} $line]} {
+        puts ">> Authorize service prompt, sending 'yes'"
+        send "yes\r"
+        return
+    }
+
+    # Confirm passkey
+    if {[regexp {Confirm passkey.*\(yes/no\):} $line]} {
+        puts ">> Confirm passkey, sending 'yes'"
+        send "yes\r"
+        return
+    }
+
+    # Trust all mac addresses
+    if {[regexp {Device ([0-9A-F:]{17})} $line dummy mac]} {
+        puts ">> Found device $mac, sending trust command"
+        send "trust $mac\r"
+        return
+    }
+}
+
+while {1} {
+    spawn bluetoothctl
+    puts "info: bluetoothctl gestart..."
+
+    expect {
+        -re {(.+)} {
+            set line $expect_out(1,string)
+            puts ">> $line"
+            handle_line $line
+            exp_continue
+        }
+        eof {
+            puts "warn: bluetoothctl gestopt. Herstarten..."
+        }
+    }
+}
