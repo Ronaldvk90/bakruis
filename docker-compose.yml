@@ -30,9 +30,9 @@ services:
       dbus:
         condition: service_healthy
     env_file: .env
+    image: ronaldvk90/pulseaudio:latest
     build: pulseaudio/.
     restart: unless-stopped
-    image: ronaldvk90/pulseaudio:latest
     volumes:
       - dbussocket:/var/run/dbus/
       - ./pulseaudio/default.pa.d/10-avahi.pa:/etc/pulse/default.pa.d/10-avahi.pa
