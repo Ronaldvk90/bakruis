@@ -23,12 +23,9 @@ When the container runs, we have to enter it from the commandline if we want to 
 If you want to add a service to bakruis, feel free!
 
 Add your service in the compose file, and load the .env file in your container. 
-Make sure in the composefile to mount the *sockets* volume to /tmp/
 The needed environments in the .env file:
 
 DBUS_SYSTEM_BUS_ADDRESS=unix:path=/tmp/system_bus_socket
-PULSE_SERVER=unix:/tmp/pulseaudio.socket
+PULSE_SERVER=tcp:172.31.0.3:4713
 
-Or use PipeWire at **/tmp/pipewire-0**
-
-This will connect the service to avahi trough DBUS and the PipeWire-Pulse container trough DBUS socket and PipeWire-Pulse or pipewire socket.
+This will connect the service to avahi trough DBUS and the pulseaudio container trough DBUS socket and puleaudio TCP socket.

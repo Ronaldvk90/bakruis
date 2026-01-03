@@ -8,6 +8,9 @@ services:
       - dbussocket:/var/run/dbus/
       - ./dbus/system_services/:/usr/share/dbus-1/system.d/
       - ./dbus/session_services/:/usr/share/dbus-1/session.d/
+    networks:
+      bakruislan:
+        ipv4_address: 172.31.0.2
 
   avahi:
     depends_on:
@@ -18,39 +21,40 @@ services:
     build: avahi/.
     restart: unless-stopped
     volumes:
-      - audiosockets:/tmp
       - dbussocket:/var/run/dbus/
     network_mode: host
 
-  pipewire-pulse:
-    hostname: pipewire-pulse
+  pulseaudio:
+    hostname: pulseaudio
     depends_on:
       dbus:
         condition: service_healthy
     env_file: .env
-    build: pipewire-pulse/.
+    build: pulseaudio/.
     restart: unless-stopped
-    image: ronaldvk90/pipewire-pulse:latest
+    image: ronaldvk90/pulseaudio:latest
     volumes:
-      - audiosockets:/tmp
       - dbussocket:/var/run/dbus/
-      - ./pipewire-pulse/pipewire-pulse.conf.d/:/etc/pipewire/pipewire-pulse.conf.d/
+      - ./pulseaudio/default.pa.d/10-avahi.pa:/etc/pulse/default.pa.d/10-avahi.pa
+      - ./pulseaudio/default.pa.d/20-socket.pa:/etc/pulse/default.pa.d/20-socket.pa
       - /run/udev:/run/udev:ro
     devices:
       - "/dev/snd"
     ports:
       - "4713:4713"
+    networks:
+      bakruislan:
+        ipv4_address: 172.31.0.3
 
   bluetooth:
     depends_on:
-      pipewire-pulse:
+      pulseaudio:
         condition: service_healthy
     env_file: ".env"
     image: ronaldvk90/bluetooth:latest
     build: bluetooth/.
     restart: unless-stopped
     volumes:
-      - audiosockets:/tmp
       - dbussocket:/var/run/dbus/
       - btdevices:/var/lib/bluetooth
     cap_add:
@@ -60,7 +64,7 @@ services:
 
   shairport-sync:
     depends_on:
-      pipewire-pulse:
+      pulseaudio:
         condition: service_healthy
     env_file: .env
     image: ronaldvk90/shairport-sync:latest
@@ -68,26 +72,18 @@ services:
     network_mode: "host"
     volumes:
       - dbussocket:/var/run/dbus/
-      - audiosockets:/tmp
     logging:
       options:
         max-size: "200k"
         max-file: "10"
 
-  spotify:
-    depends_on:
-      pipewire-pulse:
-        condition: service_healthy
-    env_file: .env
-    image: ronaldvk90/spotify:latest
-    build: spotify/.
-    restart: unless-stopped
-    volumes:
-      - dbussocket:/var/run/dbus/
-      - audiosockets:/tmp
-    network_mode: host
-
 volumes:
   btdevices:
-  audiosockets:
   dbussocket:
+
+networks:
+  bakruislan:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.0.0/24

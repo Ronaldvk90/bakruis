@@ -116,7 +116,7 @@ AUDIOOPTIONS=(1 "Auto detect audio group (recommended)"
 
 # Some complex stuff. I'm pulling the actual audio devices from the container, and packing them in a array for the choice menu.
 while true ; do
-    SETDEVICE=$(docker exec -i -u 1000 bakruis-pipewire-pulse-1 pactl list sinks short | awk '{print $2}'| sort | cat -n | grep '^' | cut -c8-)
+    SETDEVICE=$(docker exec -i -u 1000 bakruis-pulseaudio-1 pactl list sinks short | awk '{print $2}'| sort | cat -n | grep '^' | cut -c8-)
         if [[ ! -z "$SETDEVICE" ]] ; then
         echo "$SETDEVICE"
         break
@@ -192,5 +192,5 @@ while [ "$CHOICE -ne 4" ]; do
             exit
             ;;
     esac
-exec /bin/bash "$0" "$@"
+exec bash "$0" "$@"
 done

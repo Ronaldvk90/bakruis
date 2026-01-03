@@ -1,4 +1,4 @@
-FROM alpine:3.22
+FROM alpine:3.23
 RUN apk update && apk upgrade
 RUN apk -U add bluez tzdata expect
 COPY main.conf /etc/bluetooth/main.conf
