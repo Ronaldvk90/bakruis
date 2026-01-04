@@ -4,7 +4,7 @@
 sed -i "s/\<NAME\>/$NAME/" /etc/bluetooth/main.conf
 
 /usr/lib/bluetooth/bluetoothd --noplugin=keyboard --experimental&
-rfkill unblock bluetooth
+/usr/sbin/rfkill unblock bluetooth
 
 # Bluetooth has te be powered in order to work correctly
 while true; do
