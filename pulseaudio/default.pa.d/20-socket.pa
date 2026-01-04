@@ -1,2 +1,1 @@
 load-module module-native-protocol-tcp auth-anonymous=1
-#load-module module-native-protocol-unix socket=/tmp/pulseaudio.socket auth-anonymous=1

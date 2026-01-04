@@ -35,8 +35,7 @@ services:
     restart: unless-stopped
     volumes:
       - dbussocket:/var/run/dbus/
-      - ./pulseaudio/default.pa.d/10-avahi.pa:/etc/pulse/default.pa.d/10-avahi.pa
-      - ./pulseaudio/default.pa.d/20-socket.pa:/etc/pulse/default.pa.d/20-socket.pa
+      - ./pulseaudio/default.pa.d/:/etc/pulse/default.pa.d/
       - /run/udev:/run/udev:ro
     devices:
       - "/dev/snd"
