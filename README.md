@@ -1,4 +1,4 @@
-# Welcome to bakruis! A PulseaudioTCP/Airplay2/Bluetooth A2DP docker instance.
+# Welcome to bakruis! A PulseaudioTCP/Spotify/Airplay2/Bluetooth A2DP docker instance.
 
 1)
 First of all, I would like to thank Mike Brady for his work with Airplay. I use his Shairport-sync docker instance.\

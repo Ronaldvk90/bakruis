@@ -76,6 +76,18 @@ services:
         max-size: "200k"
         max-file: "10"
 
+  spotify:
+    depends_on:
+      pulseaudio:
+        condition: service_healthy
+    env_file: .env
+    build: spotify/.
+    image: ronaldvk90/spotify:latest
+    restart: unless-stopped
+    network_mode: "host"
+    volumes:
+      - dbussocket:/var/run/dbus/
+
 volumes:
   btdevices:
   dbussocket:
