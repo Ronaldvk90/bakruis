@@ -24,6 +24,7 @@ services:
     restart: unless-stopped
     volumes:
       - dbussocket:/var/run/dbus/
+      - avahisocket:/var/run/avahi-daemon
     network_mode: host
     security_opt:
       - label=disable
@@ -39,6 +40,7 @@ services:
     restart: unless-stopped
     volumes:
       - dbussocket:/var/run/dbus/
+      - pulsesocket:/tmp/
       - ./pulseaudio/default.pa.d/:/etc/pulse/default.pa.d/
       - /run/udev:/run/udev:ro
     devices:
@@ -70,15 +72,22 @@ services:
       - label=disable
 
   shairport-sync:
+    hostname: ${NAME}
+    environment:
+      PULSE_SERVER: "/tmp/pulseaudio.socket"
+      ENABLE_AVAHI: "0"
     depends_on:
       pulseaudio:
         condition: service_healthy
     env_file: .env
-    image: ronaldvk90/shairport-sync:latest
+    image: mikebrady/shairport-sync:latest
     restart: unless-stopped
     network_mode: "host"
     volumes:
+      - ./shairport-sync/shairport-sync.conf:/etc/shairport-sync.conf
       - dbussocket:/var/run/dbus/
+      - avahisocket:/var/run/avahi-daemon/
+      - pulsesocket:/tmp/
     logging:
       options:
         max-size: "200k"
@@ -103,6 +112,8 @@ services:
 volumes:
   btdevices:
   dbussocket:
+  avahisocket:
+  pulsesocket:
 
 networks:
   bakruislan:
