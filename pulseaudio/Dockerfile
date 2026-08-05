@@ -1,4 +1,4 @@
-FROM alpine:3.23
+FROM alpine:3.24
 RUN apk update && apk upgrade
 RUN apk -U add pulseaudio pulseaudio-alsa pulseaudio-zeroconf pulseaudio-utils pulseaudio-bluez
 RUN adduser -D --uid 1000 bakruis
