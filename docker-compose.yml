@@ -62,6 +62,7 @@ services:
     build: bluetooth/.
     restart: unless-stopped
     volumes:
+      - /dev/rfkill:/dev/rfkill
       - dbussocket:/var/run/dbus/
       - btdevices:/var/lib/bluetooth
     cap_add:
