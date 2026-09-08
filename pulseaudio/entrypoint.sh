@@ -16,4 +16,4 @@ while true; do
 done &
 
 ## Start pulseaudio
-pulseaudio -v --exit-idle-time=-1 --disallow-exit=yes
+runuser -l  bakruis -c 'pulseaudio -v --exit-idle-time=-1 --disallow-exit=yes'
