@@ -74,14 +74,11 @@ services:
 
   shairport-sync:
     hostname: ${NAME}
-    environment:
-      PULSE_SERVER: "/tmp/pulseaudio.socket"
-      ENABLE_AVAHI: "0"
     depends_on:
       pulseaudio:
         condition: service_healthy
     env_file: .env
-    image: mikebrady/shairport-sync:latest
+    image: ronaldvk90/shairport-sync:latest
     restart: unless-stopped
     network_mode: "host"
     volumes:
@@ -89,6 +86,8 @@ services:
       - dbussocket:/var/run/dbus/
       - avahisocket:/var/run/avahi-daemon/
       - pulsesocket:/tmp/
+    cap_add:
+      - SYS_NICE
     logging:
       options:
         max-size: "200k"
