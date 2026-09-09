@@ -125,4 +125,4 @@ COPY --from=shairport-sync /shairport-sync/install/etc/shairport-sync.conf /etc/
 COPY --from=shairport-sync /shairport-sync/install/etc/shairport-sync.conf.sample /etc/
 
 HEALTHCHECK --interval=5s --timeout=10s --retries=10 CMD pgrep shairport-sync > /dev/null || exit 1
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
