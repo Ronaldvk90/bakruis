@@ -40,7 +40,6 @@ services:
     restart: unless-stopped
     volumes:
       - dbussocket:/var/run/dbus/
-      - pulsesocket:/tmp/
       - ./pulseaudio/default.pa.d/:/etc/pulse/default.pa.d/
       - /run/udev:/run/udev:ro
     devices:
@@ -85,7 +84,6 @@ services:
       - ./shairport-sync/shairport-sync.conf:/etc/shairport-sync.conf
       - dbussocket:/var/run/dbus/
       - avahisocket:/var/run/avahi-daemon/
-      - pulsesocket:/tmp/
     cap_add:
       - SYS_NICE
     logging:
@@ -113,7 +111,6 @@ volumes:
   btdevices:
   dbussocket:
   avahisocket:
-  pulsesocket:
 
 networks:
   bakruislan:
