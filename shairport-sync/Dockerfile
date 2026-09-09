@@ -116,7 +116,7 @@ RUN rm -rfv /lib/apk/db/* && \
         adduser -D shairport-sync -G shairport-sync && \
         addgroup shairport-sync audio
 
-COPY --chmod=755 ./entrypoint.sh ./entrypoint.sh
+COPY --chmod=755 ./entrypoint.sh /entrypoint.sh
 COPY --from=ffmpeglite /ffmpeg_build/lib/ /usr/local/lib
 COPY --from=shairport-sync /shairport-sync/install/usr/local/bin/shairport-sync /usr/local/bin/shairport-sync
 COPY --from=shairport-sync /shairport-sync/install/usr/local/share/man/man1 /usr/share/man/man1
