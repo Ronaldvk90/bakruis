@@ -2,14 +2,19 @@
 
 1)
 First of all, I would like to thank Mike Brady for his work with Airplay. I use his Shairport-sync docker instance.\
-I could not have built this without this awesome person! :)\
-I forked his container becouse i could not run 2 avahi instances at once. Mike runs avahi inside his container, and i run a avahi container for pulseaudio TCP.\
+I could not have built this without his work! :)\
+I forked his container becouse Mike's origional shairport container denied connecting to a pulse socket as user.\
 \
-Just run **run.sh** and you will be guided trough the setup.\
+Just copy the .env.example to .env and set the variables accordingly.\
 \
 The audio group in the env file must correspond to the audio group on your machine.\
-The audio group will be set automaticaly correspondingly if *run.sh* is executed. It will detect the group on your machine.\
-The only thing to actualy do is set the name, output device and TimeZone in the menu.\
+The next vars to set are the name, output device and TimeZone.\
+\
+The list of output decvices can be achieved by running **docker exec -it bakruis-pulseaudio-1 pactl list sinks short**.\
+\
+Just copy the output name only. For example: **alsa_output.platform-3f00b840.mailbox.stereo-fallback**.\
+\
+Restart the container with **docker restart bakruis-pulseaudio-1** and you're up and running!\
 \
 2)
 Be absolutely **SURE** bluetoothd is NOT running on the host (if you are going to use BT. You could comment out the container if you are not planning to use BT).\
@@ -18,7 +23,20 @@ You also need to **unblock the BT device**. For this you run *sudo rfkill unbloc
 \
 The same goes for avahi-daemon! *sudo systemctl disable avahi --now*\
 \
-due to BT s*cks in containers, i have to work with a expect script to auto "pair and trust" devices. You will be **shown a pin** when you connect, but it will default "yes!" to every question in the bluetoothctl. I still can't get NoInputNoOutput to work. :)\
+due to BT s*cks in containers, you have to manually add and trust your devices in the bluetoothctl commandline in the container.\
+\
+For that:\
+**docker exec -it bakruis-bluetooth-1 sh** gives you a shell in the BT container\
+**bluetoothctl** (Starts the BT commandline tools)\
+**power on** (Starts the BT device if that isn't done automaticaly)\
+**discoverable yes** (Sets this device to be discoverable to other devices)\
+**pairable yes** (Sets this device to be pairable with other devices)\
+\
+Than just let your device search for a bluetooth device with the name you typed earlier in your .env.\
+Pair the device and when asked, type yes one or more times to let your client connect in the containers BT console. be SURE to also trust the device after you added it with **trust \<device mac addr\> (without the brackets)** in the console.\
+This because it will than autoconnect without the console hassle next time.\
+Usualy a bash on the tab key does wonders! ;-)\
+Exit out, and done!\
 \
 **ADDING YOUR OWN SERVICE *DRUMROLL***\
 \
